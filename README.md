@@ -1,38 +1,23 @@
-# Basic Google Maps Setup Example
+# Google Maps Platform 101: React Codelab
 
-![image](https://user-images.githubusercontent.com/39244966/208682692-d5b23518-9e51-4a87-8121-29f71e41c777.png)
+This repo contains the project template and finished code for the Google Maps Platform 101: React codelab.
 
-This is an example to show how to setup a simple Google Maps Map with the `<Map/>` component of the Google Maps React
-library.
+![App screenshot](screenshot.png)
 
-## Google Maps API key
+## Getting Started
+To get started with the codelab, download or fork this repo. A starter template is available in `/starter` and the full solution code is available in `/solution`.
 
-This example does not come with an API key. Running the examples locally requires a valid API key for the Google Maps Platform.
-See [the official documentation][get-api-key] on how to create and configure your own key.
+To run the starter or solution apps, run the following from their respective directories:
 
-The API key has to be provided via an environment variable `GOOGLE_MAPS_API_KEY`. This can be done by creating a
-file named `.env` in the example directory with the following content:
+1. `npm i`
+2. `npm start`
 
-```shell title=".env"
-GOOGLE_MAPS_API_KEY="<YOUR API KEY HERE>"
-```
+This will install the needed dependencies and run the app locally in your browser using Webpack Dev Server.
 
-If you are on the CodeSandbox playground you can also choose to [provide the API key like this](https://codesandbox.io/docs/learn/environment/secrets)
+## Support
+If you find a bug, please [file an issue]. Or, if you'd like to contribute, send us a [pull request] and refer to our [code of conduct].
 
-## Development
-
-Go into the example-directory and run
-
-```shell
-npm install
-```
-
-To start the example with the local library run
-
-```shell
-npm run start-local
-```
-
-The regular `npm start` task is only used for the standalone versions of the example (CodeSandbox for example)
-
-[get-api-key]: https://developers.google.com/maps/documentation/javascript/get-api-key
+[codelab]: https://codelabs.developers.google.com/codelabs/maps-platform-101-js/index.html
+[file an issue]: https://github.com/googlecodelabs/maps-platform-101-js/issues
+[pull request]:  https://github.com/googlecodelabs/maps-platform-101-js/compare
+[code of conduct]: CODE_OF_CONDUCT.md
