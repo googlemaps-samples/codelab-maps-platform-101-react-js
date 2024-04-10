@@ -17,7 +17,7 @@ This will install the needed dependencies and run the app locally in your browse
 ## Support
 If you find a bug, please [file an issue]. Or, if you'd like to contribute, send us a [pull request] and refer to our [code of conduct].
 
-[codelab]: https://codelabs.developers.google.com/codelabs/maps-platform-101-js/index.html
-[file an issue]: https://github.com/googlecodelabs/maps-platform-101-js/issues
-[pull request]:  https://github.com/googlecodelabs/maps-platform-101-js/compare
+[codelab]: https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js
+[file an issue]: https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/issues
+[pull request]:  https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/compare
 [code of conduct]: CODE_OF_CONDUCT.md
