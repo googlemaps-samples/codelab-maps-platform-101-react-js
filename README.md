@@ -30,3 +30,8 @@ This library adheres to [semantic versioning](https://semver.org/) to indicate w
 If you find a bug, or have a feature request, please [file an issue](https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/issues) on GitHub. If you would like to get answers to technical questions from other Google Maps Platform developers, ask through one of our [developer community channels](https://developers.google.com/maps/developer-community). If you'd like to contribute, please check the [Contributing guide](CONTRIBUTING.md).
 
 You can also discuss this library on our [Discord server](https://discord.gg/hYsWbmk).
+
+[codelab]: https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js
+[file an issue]: https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/issues
+[pull request]:  https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/compare
+[code of conduct]: CODE_OF_CONDUCT.md
