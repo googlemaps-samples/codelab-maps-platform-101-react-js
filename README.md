@@ -1,6 +1,7 @@
 # Google Maps Platform 101: React Codelab
 
-This repo contains the project template and finished code for the Google Maps Platform 101: React codelab.
+## Description
+This repo contains the project template and finished code for the [Google Maps Platform 101: React codelab](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js).
 
 ![App screenshot](screenshot.png)
 
@@ -14,10 +15,18 @@ To run the starter or solution apps, run the following from their respective dir
 
 This will install the needed dependencies and run the app locally in your browser using Webpack Dev Server.
 
-## Support
-If you find a bug, please [file an issue]. Or, if you'd like to contribute, send us a [pull request] and refer to our [code of conduct].
+## Terms of Service
 
-[codelab]: https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js
-[file an issue]: https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/issues
-[pull request]:  https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/compare
-[code of conduct]: CODE_OF_CONDUCT.md
+This library uses Google Maps Platform services, and any use of Google Maps Platform is subject to the [Terms of Service](https://cloud.google.com/maps-platform/terms).
+
+For clarity, this library, and each underlying component, is not a Google Maps Platform Core Service.
+
+## Support
+
+This library is offered via an open source license. It is not governed by the Google Maps Platform Support [Technical Support Services Guidelines](https://cloud.google.com/maps-platform/terms/tssg), the [SLA](https://cloud.google.com/maps-platform/terms/sla), or the [Deprecation Policy](https://cloud.google.com/maps-platform/terms) (however, any Google Maps Platform services used by the library remain subject to the Google Maps Platform Terms of Service).
+
+This library adheres to [semantic versioning](https://semver.org/) to indicate when backwards-incompatible changes are introduced. Accordingly, while the library is in version 0.x, backwards-incompatible changes may be introduced at any time. 
+
+If you find a bug, or have a feature request, please [file an issue](https://github.com/googlemaps-samples/codelab-maps-platform-101-react-js/issues) on GitHub. If you would like to get answers to technical questions from other Google Maps Platform developers, ask through one of our [developer community channels](https://developers.google.com/maps/developer-community). If you'd like to contribute, please check the [Contributing guide](CONTRIBUTING.md).
+
+You can also discuss this library on our [Discord server](https://discord.gg/hYsWbmk).
