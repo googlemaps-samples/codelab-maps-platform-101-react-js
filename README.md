@@ -19,7 +19,8 @@ This will install the needed dependencies and run the app locally in your browse
 
 This library uses Google Maps Platform services, and any use of Google Maps Platform is subject to the [Terms of Service](https://cloud.google.com/maps-platform/terms).
 
-For clarity, this library, and each underlying component, is not a Google Maps Platform Core Service.
+This library is not a Google Maps Platform Core Service. Therefore, the Google Maps Platform Terms of Service (e.g. Technical Support Services, Service Level Agreements, and Deprecation Policy) do not apply to the code in this library.
+
 
 ## Support
 
