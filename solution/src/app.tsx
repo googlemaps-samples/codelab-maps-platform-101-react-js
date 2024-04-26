@@ -31,9 +31,6 @@ import type {Marker} from '@googlemaps/markerclusterer';
 
 import {Circle} from './components/circle'
 
-const API_KEY =
-  globalThis.GOOGLE_MAPS_API_KEY ?? (process.env.GOOGLE_MAPS_API_KEY as string);
-
 type Poi ={ key: string, location: google.maps.LatLngLiteral }
 const locations: Poi[] = [
   {key: 'operaHouse', location: { lat: -33.8567844, lng: 151.213108  }},
@@ -54,7 +51,7 @@ const locations: Poi[] = [
 ];
 
 const App = () => (
-  <APIProvider apiKey={API_KEY} onLoad={() => console.log('Maps API has loaded.')}>
+  <APIProvider apiKey={'Your API key here'} onLoad={() => console.log('Maps API has loaded.')}>
     <Map
       defaultZoom={13}
       defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
@@ -139,8 +136,6 @@ export default App;
 
 const root = createRoot(document.getElementById('app'));
 root.render(
-    <React.StrictMode>
       <App />
-    </React.StrictMode>
   );
 
