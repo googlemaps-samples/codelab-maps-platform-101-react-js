@@ -15,8 +15,11 @@
 */
 
 import React from 'react';
+import { createRoot } from "react-dom/client";
 
-const App = () => (
- // TODO: finish codelab-maps-platform-101-react-js codelab
-);
+const App = () => (<h1>Hello, world!</h1>);
+
+const root = createRoot(document.getElementById('app'));
+root.render(<App />);
+
 export default App;

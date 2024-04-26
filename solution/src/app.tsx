@@ -137,12 +137,10 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
 
 export default App;
 
-export function renderToDom(container: HTMLElement) {
-  const root = createRoot(container);
-
-  root.render(
+const root = createRoot(document.getElementById('app'));
+root.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
   );
-}
+
