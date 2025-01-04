@@ -33,6 +33,8 @@ import { Circle } from "./components/circle";
 import ParkingLots from "./components/ParkingLots";
 import NoLocationFound from "./components/NoLocationFound";
 
+
+
 type Poi = { key: string; location: google.maps.LatLngLiteral };
 
 const App = () => {
@@ -74,7 +76,7 @@ const App = () => {
           mapId="da37f3254c6a6d1c"
         >
           <AdvancedMarker position={userLocation}>
-            <img src={'/public/images/pin_8668861.png'} width={34} height={34} title="Current Location" />
+            <img src={'/images/pin_8668861.png'} width={34} height={34} title="Current Location" />
           </AdvancedMarker>
           {/* load marking lots */}
           <ParkingLots userLocation={userLocation} />

@@ -2,6 +2,7 @@ import { AdvancedMarker, Pin, useMap, useMapsLibrary } from '@vis.gl/react-googl
 import React, { useEffect, useState,useRef, useCallback } from 'react';
 // import { Circle } from './circle';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
+
 // Define the Poi type
 type Poi = {
   key: string;
@@ -26,7 +27,7 @@ const ParkingLots = ({userLocation}) => {
     const location = new window.google.maps.LatLng(userLocation.lat, userLocation.lng); // Example: New York City (lat, lng)
     const request = {
       location,
-      radius: 3000, // Search within 500 meters
+      radius: 1000, // Search within 500 meters
       type: 'parking', // Search for parking lots
     };
 
@@ -117,7 +118,7 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
           clickable={true}
           onClick={handleClick}
         >
-          <img src={'/public/images/parking_7723653.png'} width={34} height={34} title="Parking lots" />
+          <img src={'/images/parking_7723653.png'} width={34} height={34} title="Parking lots" />
 
         </AdvancedMarker>
       ))}
