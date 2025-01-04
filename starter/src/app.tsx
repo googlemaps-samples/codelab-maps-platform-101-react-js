@@ -74,14 +74,21 @@ const App = () => {
           mapId="da37f3254c6a6d1c"
         >
           <AdvancedMarker position={userLocation}>
-            <img src={'/public/images/pin_8668861.png'} width={34} height={34} title="Current Location" />
+            <img
+              src={"/public/images/pin_8668861.png"}
+              width={34}
+              height={34}
+              title="Current Location"
+            />
           </AdvancedMarker>
           {/* load marking lots */}
           <ParkingLots userLocation={userLocation} />
 
           {/* <PoiMarkers pois={locations} /> */}
         </Map>
-      ): <NoLocationFound />}
+      ) : (
+        <NoLocationFound />
+      )}
     </APIProvider>
   );
 };

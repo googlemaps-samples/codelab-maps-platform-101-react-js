@@ -1,8 +1,9 @@
-import { AdvancedMarker, Pin, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
-import React, { useEffect, useState,useRef, useCallback } from 'react';
-// import { Circle } from './circle';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
-// Define the Poi type
+import { AdvancedMarker, useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import Popup from "./PopupComponent";
+
+// Poi type definition
 type Poi = {
   key: string;
   location: {
@@ -11,65 +12,82 @@ type Poi = {
   };
 };
 
-// ParkingLots component that fetches nearby parking lots
-const ParkingLots = ({userLocation}) => {
+const ParkingLots = ({ userLocation }) => {
   const map = useMap();
-  const placesLib = useMapsLibrary('places');
+  const placesLib = useMapsLibrary("places");
   const [parkingLots, setParkingLots] = useState<Poi[]>([]);
 
   useEffect(() => {
     if (!placesLib || !map) return;
 
     const svc = new placesLib.PlacesService(map);
-
-    // Define the location (latitude and longitude)
-    const location = new window.google.maps.LatLng(userLocation.lat, userLocation.lng); // Example: New York City (lat, lng)
+    const location = new window.google.maps.LatLng(userLocation.lat, userLocation.lng);
     const request = {
       location,
-      radius: 3000, // Search within 500 meters
-      type: 'parking', // Search for parking lots
+      radius: 3000,
+      type: "parking",
     };
 
-    // Perform the nearby search
     svc.nearbySearch(request, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        // Map the results to create the array of locations
-        const locations: Poi[] = results.map((lot, index) => ({
-          key: lot.place_id, // You can use a unique property like place_id as the key
+        const locations: Poi[] = results.map((lot) => ({
+          key: lot.place_id,
           location: {
             lat: lot.geometry.location.lat(),
             lng: lot.geometry.location.lng(),
           },
         }));
-        
-        setParkingLots(locations); // Store the locations in the state
+        setParkingLots(locations);
       } else {
-        console.error('Nearby search failed:', status);
+        console.error("Nearby search failed:", status);
       }
     });
   }, [placesLib, map]);
 
-  return (
-      <PoiMarkers pois={parkingLots} />
-  );
+  return <PoiMarkers pois={parkingLots} />;
 };
 
-// PoiMarkers component to render the markers
 const PoiMarkers = (props: { pois: Poi[] }) => {
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: google.maps.Marker }>({});
   const clusterer = useRef<MarkerClusterer | null>(null);
   const [circleCenter, setCircleCenter] = useState<google.maps.LatLng | null>(null);
+  const [selectedPoi, setSelectedPoi] = useState<any | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const placesLib = useMapsLibrary("places");
 
-  const handleClick = useCallback((ev: google.maps.MapMouseEvent) => {
-    if (!map) return;
+  const handleClick = useCallback((poi: Poi, ev: google.maps.MapMouseEvent) => {
+    if (!map || !placesLib) return;
     if (!ev.latLng) return;
-    console.log('Marker clicked:', ev.latLng.toString());
+
     map.panTo(ev.latLng);
     setCircleCenter(ev.latLng);
-  });
 
-  // Initialize MarkerClusterer, if the map has changed
+    const clickedLatLng = ev.latLng;
+
+    // Fetch the place details using placeDetails API
+    const svc = new placesLib.PlacesService(map);
+    const request = {
+      placeId: poi.key, // Use poi.key (place_id) from the clicked marker
+    };
+
+    svc.getDetails(request, (place, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        const name = place.name || "Unknown Place"; // Get the name of the parking lot
+        const selectedPoi = {
+          name,
+          key: place.place_id,
+          latLng: clickedLatLng,
+        };
+
+        setSelectedPoi(selectedPoi);
+        setShowPopup(true);
+      } else {
+        console.error("Place details request failed:", status);
+      }
+    });
+  }, [map, placesLib]);
+
   useEffect(() => {
     if (!map) return;
     if (!clusterer.current) {
@@ -77,7 +95,6 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
     }
   }, [map]);
 
-  // Update markers when the markers array changes
   useEffect(() => {
     clusterer.current?.clearMarkers();
     clusterer.current?.addMarkers(Object.values(markers));
@@ -100,27 +117,25 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
 
   return (
     <>
-      {/* <Circle
-        radius={800}
-        center={circleCenter}
-        strokeColor="#0c4cb3"
-        strokeOpacity={1}
-        strokeWeight={3}
-        fillColor="#3b82f6"
-        fillOpacity={0.3}
-      /> */}
       {props.pois.map((poi: Poi) => (
         <AdvancedMarker
           key={poi.key}
           position={poi.location}
           ref={(marker) => setMarkerRef(marker, poi.key)}
           clickable={true}
-          onClick={handleClick}
+          onClick={(ev) => handleClick(poi, ev)} // Pass poi and event to the handler
         >
-          <img src={'/public/images/parking_7723653.png'} width={34} height={34} title="Parking lots" />
-
+          <img
+            src={"/public/images/parking_7723653.png"}
+            width={34}
+            height={34}
+            title="Parking lots"
+          />
         </AdvancedMarker>
       ))}
+      {showPopup && selectedPoi && (
+        <Popup poi={selectedPoi} onClose={() => setShowPopup(false)} />
+      )}
     </>
   );
 };
