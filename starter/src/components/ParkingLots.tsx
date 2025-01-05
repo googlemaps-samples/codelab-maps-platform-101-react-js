@@ -1,6 +1,22 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { AdvancedMarker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from 'firebase/database';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
+
+// Firebase configuration (replace with your Firebase project details)
+const firebaseConfig = {
+  apiKey: "AIzaSyAYGCeiwywP5LveenGYeDH6GfR181c2st0",
+  authDomain: "bootwatcher-82f5d.firebaseapp.com",
+  databaseURL: "https://bootwatcher-82f5d-default-rtdb.firebaseio.com/",
+  projectId: "bootwatcher-82f5d",
+  storageBucket: "bootwatcher-82f5d.firebasestorage.app",
+  messagingSenderId: "1007091338240",
+  appId: "1:1007091338240:web:f8d830cc8a4e05b3e55ce5",
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 // Define the Poi type
 type Poi = {
@@ -9,7 +25,7 @@ type Poi = {
     lat: number;
     lng: number;
   };
-  name?: string; // Add this to store parking lot names
+  name?: string;
 };
 
 // ParkingLots component that fetches nearby parking lots
@@ -38,7 +54,7 @@ const ParkingLots = ({ userLocation }) => {
             lat: lot.geometry.location.lat(),
             lng: lot.geometry.location.lng(),
           },
-          name: lot.name, // Store the parking lot name
+          name: lot.name,
         }));
         setParkingLots(locations);
       } else {
@@ -50,8 +66,8 @@ const ParkingLots = ({ userLocation }) => {
   return <PoiMarkers pois={parkingLots} />;
 };
 
-// Pop-Up Component
-const Popup = ({ poi, onClose }) => (
+// Popup Component
+const Popup = ({ poi, onClose, onReceiveNotifications }) => (
   <div
     style={{
       position: 'absolute',
@@ -65,21 +81,71 @@ const Popup = ({ poi, onClose }) => (
     }}
   >
     <h3>{poi.name || 'Parking Lot'}</h3>
-    <button onClick={() => console.log('Send notification clicked')}>Send Notification</button>
-    <button onClick={() => console.log('Receive notification clicked')}>Receive Notifications</button>
+    <button onClick={onReceiveNotifications}>Receive Notifications</button>
     <button onClick={onClose}>Close</button>
   </div>
 );
+
+// Phone Number Input Popup
+const PhoneNumberPopup = ({ onSave, onClose }) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleSave = () => {
+    onSave(phoneNumber);
+    onClose();
+  };
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: 'white',
+        border: '1px solid #ccc',
+        padding: '16px',
+        zIndex: 1000,
+      }}
+    >
+      <h3>Enter Your Phone Number</h3>
+      <input
+        type="text"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
+        placeholder="Your phone number"
+      />
+      <button onClick={handleSave}>Save</button>
+      <button onClick={onClose}>Cancel</button>
+    </div>
+  );
+};
 
 // PoiMarkers component to render the markers
 const PoiMarkers = (props: { pois: Poi[] }) => {
   const map = useMap();
   const [markers, setMarkers] = useState<{ [key: string]: google.maps.Marker }>({});
   const [selectedPoi, setSelectedPoi] = useState<Poi | null>(null);
+  const [showPhonePopup, setShowPhonePopup] = useState(false);
 
   const handleClick = useCallback((poi: Poi) => {
     setSelectedPoi(poi);
   }, []);
+
+  const handlePhoneSave = (phoneNumber: string) => {
+    if (selectedPoi) {
+      set(ref(database, `phoneNumbers/${selectedPoi.key}`), {
+        phoneNumber,
+        parkingLot: selectedPoi.name || 'Unknown',
+      })
+        .then(() => {
+          console.log('Phone number saved successfully');
+        })
+        .catch((error) => {
+          console.error('Error saving phone number:', error);
+        });
+    }
+  };
 
   const setMarkerRef = (marker: google.maps.Marker | null, key: string) => {
     if (marker && markers[key]) return;
@@ -109,7 +175,21 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
           <img src={'/public/images/parking_7723653.png'} width={34} height={34} title="Parking lots" />
         </AdvancedMarker>
       ))}
-      {selectedPoi && <Popup poi={selectedPoi} onClose={() => setSelectedPoi(null)} />}
+      {selectedPoi && (
+        <>
+          <Popup
+            poi={selectedPoi}
+            onClose={() => setSelectedPoi(null)}
+            onReceiveNotifications={() => setShowPhonePopup(true)}
+          />
+        </>
+      )}
+      {showPhonePopup && (
+        <PhoneNumberPopup
+          onSave={handlePhoneSave}
+          onClose={() => setShowPhonePopup(false)}
+        />
+      )}
     </>
   );
 };
