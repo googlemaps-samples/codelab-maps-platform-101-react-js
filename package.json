@@ -1,0 +1,33 @@
+{
+  "name": "bootwatcher-maps-platform-101-react",
+  "version": "1.0.0",
+  "description": "## Description This repo contains the project template and finished code for the [Google Maps Platform 101: React codelab](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js).",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-backend": "cd backend && npm start",
+    "start-frontend": "cd starter && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/material": "^6.3.1",
+    "@mui/styled-engine-sc": "^6.3.1",
+    "axios": "^1.7.9",
+    "bootwatcher-maps-platform-101-react": "file:",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "firebase": "^11.1.0",
+    "firebase-admin": "^13.0.2",
+    "firebase-functions": "^6.2.0",
+    "firebase-tools": "^13.29.1",
+    "styled-components": "^6.1.14"
+  }
+}
